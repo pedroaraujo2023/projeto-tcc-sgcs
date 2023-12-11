@@ -132,6 +132,9 @@ STATICFILES_DIRS = [
 
 STATIC_URL = 'static/'
 
+# Configuração do diretório para arquivos estáticos coletados
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 

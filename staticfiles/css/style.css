@@ -1,0 +1,162 @@
+            nav{
+                background-color: #3d8ab1;
+            }
+
+            .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+                margin-top: 50px;
+                margin-bottom: 2.5rem;
+                font-weight: 500;
+                padding-left: 50px;
+                line-height: 1.2;
+            }
+    
+            body{
+                background-color: #ebf2fa;
+                width: 100%;
+                font-family: Arial, sans-serif;
+                box-sizing: border-box;
+                margin: 0 auto;
+            }
+    
+            .mt-5{
+
+                margin-left: -15rem;
+            }
+
+            .mt-4 {
+                margin-top: 6.5rem!important;
+            }
+    
+            .container{
+                width: 100%;
+                max-width: 320px; /* Ajuste o valor conforme necessário */
+                margin: 0 auto;
+                padding-bottom: 160px;
+                position: relative;
+            }
+            .form-group {
+                margin-bottom: 20px;
+            }
+    
+            .form-login{
+                margin-top: 115px;
+            }
+    
+            input[type="text"], input[type="email"], input[type="password"] {
+                width: 100%;
+                padding: 8px 12px;
+                border: 1px solid #ddd;
+                border-radius: 3px;
+                font-size: 14px;
+                outline: none;
+            }
+    
+            #btn-cadastro button[type="submit"] {
+                padding: 8px 40px;
+                border: none;
+                color: white;
+                font-size: 16px;
+                cursor: pointer;
+                border-radius: 10px; /* Alterado de 5px */
+            }
+    
+            button[type="submit"]{
+                background-color: #3d8ab1;
+                width: 155px;
+                margin: auto;
+            }
+            
+            .navbar-light .navbar-nav .nav-link {
+                color: white;
+            }
+            
+        /* Adicione isso ao seu estilo CSS existente ou crie um arquivo CSS separado */
+            .fixed-footer {
+             position: relative;
+             bottom: 0;
+             left: 0;
+             width: 100%;
+             padding: -30px 0;
+             text-align: center;
+            }
+
+            hr{
+                height: 1px;
+                margin-bottom: -46px;
+            }
+    
+           .fixed-footer .icon-social {
+              float: right;
+              margin-top: 10px;
+           }  
+    
+            .fixed-footer .icon-social p {
+              margin-bottom: 5px;
+              margin-top: 40px;
+           }
+    
+           .fixed-footer .icon-social a {
+               display: inline-block;
+               margin: 0 5px;
+               text-decoration: none;
+               color: #333;
+               padding-top: 2px;
+    
+            }
+    
+            .fixed-footer .icon-social a:hover {
+               color: #0056b3;
+            }
+    
+            .fixed-footer .direitos {
+                font-size: 14px;
+                color: #777;
+                margin-top: 10px;
+                padding-left: 130px;
+                margin-top: 70px;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            
+            th, td {
+                padding: 8px;
+                text-align: left;
+                border-bottom: 1px solid #ddd;
+            }
+            
+            tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+            
+            th {
+                background-color: #ddd;
+            }
+            
+            a {
+                color: #007bff;
+                text-decoration: none;
+            }
+            
+            a:hover {
+                color: #0056b3;
+            }
+            .blue {
+                background: #3c8ab1;
+              }
+              .custom-accordion-header {
+                background-color: white; /* ou qualquer cor que você deseja */
+                color: black; /* Cor do texto, ajuste conforme necessário */
+              }
+      
+              .custom-accordion-header:focus {
+                box-shadow: none; /* Remove o foco no estilo padrão do Bootstrap */
+              }
+      
+              /* Estilos para quando o acordeão está expandido */
+              .custom-accordion-header:not(.collapsed) {
+                background-color: white; /* ou a cor de fundo desejada */
+                color: black; /* Cor do texto, ajuste conforme necessário */
+              }
+      
