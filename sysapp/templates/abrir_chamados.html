@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    h2{
+        margin-top: 50px;
+        margin-bottom: 2.5rem;
+        margin-left: -166px;
+        padding-top: 20px;
+    }
+
+    .bg-custom {
+        padding: -15px;
+        margin-top: 1rem;
+        width: 80%;
+        margin: auto;
+        padding-left: 150px;
+        
+    }
+    
+    .container-chamado{
+        border: 1px solid #ddd;
+        padding-top: 20px;
+        margin-bottom: 10rem;
+        max-width: 100%;
+        
+    }
+    
+    .buttons-container{
+        margin-top: -9rem;
+        padding-bottom: 80px;
+    }
+    #exampleFormControlInput1 {
+        padding: 2px;
+    }
+</style>
+
+<div class="bg-custom">
+    <h2 class="">Abrir Chamado</h2>
+    <div class="container-chamado">
+        <div class="row">
+            <div class="col-md-6 offset-md-1">
+                <form id="chamadoForm" method="post" enctype="multipart/form-data" action="{% url 'abrir_chamados' %}">
+                    {% csrf_token %}
+        
+                    <div class="mb-3 row align-items-center">
+                        <label for="id_tipo" class="col-sm-2 col-form-label">Tipo:</label>
+                        <div class="col-sm-10">
+                            <select id="id_tipo" name="tipo">
+                                <option selected>Selecione</option>
+                                <option value="Suporte">Suporte</option>
+                                <option value="Financeiro">Financeiro</option>
+                                <option value="Outros">Outros</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3 row align-items-center">
+                        <label for="id_categoria" class="col-sm-2 col-form-label">Categoria:</label>
+                        <div class="col-sm-10">
+                            <select id="id_categoria" name="categoria" >
+                                <option selected>Selecione</option>
+                                <option value="Informática">Informática</option>
+                                <option value="Redes">Redes</option>
+                                <option value="Segurança">Segurança</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3 row align-items-center">
+                        <label for="id_titulo" class="col-sm-2 col-form-label">Título:</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="id_titulo" name="titulo"  placeholder="Título do chamado">
+                        </div>
+                    </div>
+                    <div class="mb-3 row align-items-left">
+                        <label for="id_descricao" class="col-sm-2 col-form-label">Descrição:</label>
+                        <div class="col-sm-10">
+                            <textarea id="id_descricao" name="descricao" class="form-control custom-form-control" rows="8"  placeholder="Descrição do chamado" style="width: 100%;"></textarea>
+                        </div>
+                    </div>
+                    <div class="mb-3 row align-items-center">
+                        <label for="id_prioridade" class="col-sm-2">Prioridade: </label>
+                        <div class="col-sm-10">
+                            <select id="id_prioridade" name="prioridade"  aria-label="Default select example">
+                                <option selected>Selecione</option>
+                                <option value="Baixa">Baixa</option>
+                                <option value="Média">Média</option>
+                                <option value="Alta">Alta</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row align-items-center">
+                        <label for="id_anexo" class="col-sm-2 col-form-label">Anexar:</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <label class="input-group-btn">
+                                    <span class="btn btn-secondary">
+                                       Incluir Anexo <input type="file" id="id_anexo" name="anexo" style="display: none;">
+                                    </span>
+                                </label>
+                                <span class="form-text mx-3">(Tamanho máximo: 5 MB)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </form>
+               
+                <div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="previewModalLabel">Pré-visualização do Chamado</h5>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Aqui você pode exibir os detalhes do chamado pré-visualizado -->
+                                <p><strong>Código:</strong> <span id="previewCodigo"></span></p>
+                                <p><strong>Tipo:</strong> <span id="previewTipo"></span></p>
+                                <p><strong>Categoria:</strong> <span id="previewCategoria"></span></p>
+                                <p><strong>Título:</strong> <span id="previewTitulo"></span></p>
+                                <p><strong>Descrição:</strong> <span id="previewDescricao"></span></p>
+                                <p><strong>Prioridade:</strong> <span id="previewPrioridade"></span></p>
+                                <p><strong>Anexo:</strong> <a href="#" id="previewAnexoLink" target="_blank">Abrir anexo</a></p>
+                                <!-- Adicione mais campos conforme necessário -->
+                
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" id="btn-close" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="buttons-container">
+        <div class="mb-3 row" id="botoes-section">
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn-primary" id="criarChamadoBtn">Criar chamado</button>
+                <a href="#" id="previewLink" data-bs-toggle="modal" data-bs-target="#previewModal">
+                    Pré-visualizar
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js"></script>
+    <script>
+        document.getElementById('previewLink').addEventListener('click', function () {
+        // Atualize os campos do modal com os valores do formulário
+        document.getElementById('previewTipo').innerText = document.getElementById('id_tipo').value;
+        document.getElementById('previewCategoria').innerText = document.getElementById('id_categoria').value;
+        document.getElementById('previewTitulo').innerText = document.getElementById('id_titulo').value;
+        document.getElementById('previewDescricao').innerText = document.getElementById('id_descricao').value;
+        document.getElementById('previewPrioridade').innerText = document.getElementById('id_prioridade').value;
+
+        // Atualiza o link de anexo com o nome do arquivo e URL
+        var anexoInput = document.getElementById('id_anexo');
+        var anexoName = anexoInput.files.length > 0 ? anexoInput.files[0].name : 'Nenhum anexo';
+        var anexoURL = URL.createObjectURL(anexoInput.files[0]);
+        var anexoLink = document.getElementById('previewAnexoLink');
+        anexoLink.innerText = 'Abrir anexo: ' + anexoName;
+        anexoLink.href = anexoURL;
+
+        // Abre o modal
+        var previewModal = new bootstrap.Modal(document.getElementById('previewModal'));
+        previewModal.show();
+
+
+        });
+
+        document.getElementById('btn-close').addEventListener('click', function () {
+        // Fecha o modal
+            var previewModal = bootstrap.Modal.getInstance(document.getElementById('previewModal'));
+            previewModal.hide();
+        });
+        
+        document.getElementById('criarChamadoBtn').addEventListener('click', function () {
+        // Aciona o envio do formulário quando o botão é clicado
+        document.getElementById('chamadoForm').submit();
+       });
+
+    </script>
+</div>
+{% endblock %}

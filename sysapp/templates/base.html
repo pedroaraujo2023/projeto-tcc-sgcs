@@ -1,0 +1,74 @@
+<!-- base.html -->
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Adicione o link para o CSS do Bootstrap 5 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>SGCShelp</title>
+    <!--Link de css padrão-->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <!-- Barra de Navegação -->
+   <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <!-- Logo -->
+            <a class="navbar-brand" href="#">
+                <!--<img src="{% static 'caminho/para/seu/logo.png' %}" alt="Logo" height="30">-->
+            </a>
+
+            <!-- Botão de colapso para telas pequenas -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Links à Direita -->
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Chamados</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Treinamento</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Sobre</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contato</a>
+                    </li>
+                     <!-- Verifica se o usuário está autenticado -->
+                     {% if user.is_authenticated %}
+                     <li class="nav-item">
+                         <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                     </li>
+                 {% endif %}
+                </ul>
+            </div>
+        </div>
+   </nav>
+ 
+    {% block content %}
+      
+    {% endblock %} 
+    
+    <!-- Rodapé Fixo -->
+    <footer class="fixed-footer">
+        <hr>
+        <div class="icon-social">
+            <p>Acompanhe-nos</p>
+            <a href="#" class="icon-facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="icon-instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="icon-twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="icon-youtube"><i class="fab fa-youtube"></i></a>
+            <a href="#" class="icon-linkedin"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+        <p class="direitos">© SGCShelp Developed by Pedro Araújo</p>
+    </footer>    
+</body>
+</html>

@@ -1,0 +1,141 @@
+{%extends 'base.html' %}
+{%load static %}
+{% block content %}
+    <style>   
+      body{
+        background-color: #ebf2fa;
+        width: 100%;
+        box-sizing: border-box;
+        margin: 0 auto;
+      }
+      .mt-4 {
+        margin-top: -1.5rem!important;
+        margin: 0 auto;
+        padding-left: 50px;
+        padding-right: 50px;
+      }
+      .no-link-style {
+          text-decoration: none; /* Remove sublinhado */
+          color: inherit; /* Mantém a cor padrão do texto */
+          cursor: pointer; /* Altera o cursor para indicar que é clicável */
+       }  
+        .blue {
+          background: #3c8ab1;
+        }
+        .custom-accordion-header {
+          background-color: white; /* ou qualquer cor que você deseja */
+          color: black; /* Cor do texto, ajuste conforme necessário */
+        }
+
+        .custom-accordion-header:focus {
+          box-shadow: none; /* Remove o foco no estilo padrão do Bootstrap */
+        }
+
+        /* Estilos para quando o acordeão está expandido */
+        .custom-accordion-header:not(.collapsed) {
+          background-color: white; /* ou a cor de fundo desejada */
+          color: black; /* Cor do texto, ajuste conforme necessário */
+        }
+       
+        
+        .fixed-footer {
+        position: relative;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: -30px 0; /* Ajuste conforme necessário para o espaçamento do footer */
+        margin-top: 99px;
+        text-align: center;
+        /* Certifique-se de que o footer esteja acima dos outros elementos */
+    }
+       
+    </style>
+        <h1 class="fs-4">Dashboard</h1>
+        <div class="table-responsive mt-4">
+            <table class="table border">
+                <tbody>
+                    <tr class="bg-secondary text-white text-center">
+                      <td class="border border-dark p-3"><a href="{% url 'dashboard_chamados' estado='novos' %} "  class="no-link-style">Novos chamados</a></td>
+                      <td class="border border-dark p-3"><a href="{% url 'dashboard_chamados' estado='em_andamento' %}" class="no-link-style">Em andamento</a></td>
+                      <td class="border border-dark p-3"><a href="{% url 'dashboard_chamados' estado='finalizados' %}" class="no-link-style" onclick="notificarFinalizados()">Finalizados</a></td>
+                  </tr>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="p-3 chamados-area">
+                            {% for chamado in chamados %}
+                                <table class="table border border-dark small table-sm">
+                                    <tbody>
+                                        <tr class="blue text-light">
+                                            <td class="border border-dark"><b>#{{ chamado.codigo }}</b></td>
+                                            <td class="border border-dark"><b>Título:</b> {{ chamado.titulo }}</td>
+                                            <td class="border border-dark"><b>Tipo:</b> {{ chamado.tipo }}</td>
+                                            <td class="border border-dark"><b>Categoria:</b> {{ chamado.categoria }}</td>
+                                            <td class="border border-dark"><b>Prioridade:</b> {{ chamado.prioridade }}</td>
+                                            <td class="border border-dark">
+                                              <b>Responsável:</b> 
+                                              <form method="post" action="{% url 'dashboard_chamados' estado=estado|default:'novos' %}">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="chamado_id" value="{{ chamado.id }}">
+                                                <label for="responsavel">Selecione um servidor:</label>
+                                                <select name="responsavel" id="responsavel">
+                                                    {% for servidor in servidores %}
+                                                        <option value="{{ servidor.id }}" {% if servidor.id == chamado.responsavel.id %}selected{% endif %}>
+                                                            {{ servidor.nome_usuario }}
+                                                        </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </form>
+                                            {{ chamado.responsavel.nome_usuario }}
+                                          </td>
+                                          
+                                        </tr>
+                                        <tr class="bg-secondary">
+                                            <td colspan="6">
+                                                <div class="accordion" id="accordionExample{{ chamado.codigo }}">
+                                                    <div class="accordion-item">
+                                                        <h2 class="accordion-header" id="collapse{{ chamado.codigo }}">
+                                                            <button class="accordion-button collapsed custom-accordion-header" style="font-size: 14px;" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ chamado.codigo }}" aria-expanded="false" aria-controls="collapse{{ chamado.codigo }}">
+                                                                {{ chamado.descricao }}
+                                                            </button>
+                                                        </h2>
+                                                        <!--<div id="collapse{{ chamado.codigo }}" class="accordion-collapse collapse" aria-labelledby="heading{{ chamado.codigo }}" data-bs-parent="#accordionExample{{ chamado.codigo }}">
+                                                            <div class="accordion-body">
+                                                                {{ chamado.descricao }}
+                                                            </div>
+                                                        </div>-->
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Optional JavaScript; choose one of the two! -->
+    <script>
+
+      function mostrarNotificacao(mensagem) {
+              var divNotificacao = document.createElement('div');
+              divNotificacao.className = 'alert alert-info alert-dismissible fade show';
+              divNotificacao.role = 'alert';
+              divNotificacao.innerHTML = `
+                  ${mensagem}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              `;
+
+              document.getElementById('notifications').appendChild(divNotificacao);
+          }
+
+          // Função para mostrar notificação quando o link 'Finalizados' for clicado
+          function notificarFinalizados() {
+              mostrarNotificacao('Seu chamado foi concluído com sucesso!');
+          }
+    </script>
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+{% endblock %}
